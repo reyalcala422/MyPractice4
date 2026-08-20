@@ -154,3 +154,6 @@ C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\obj\Debug\net10.0\My
 C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\obj\Debug\net10.0\MyPractice4.genruntimeconfig.cache
 C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\obj\Debug\net10.0\ref\MyPractice4.dll
 C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\obj\Debug\net10.0\MyPractice4.sourcelink.json
+C:\Users\Admin\Desktop\mvc practice\MyPractice4\MyPractice4\bin\Debug\net10.0\BCrypt-Net-Next.dll
