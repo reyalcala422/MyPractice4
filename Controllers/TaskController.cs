@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyPractice4.Data;
+using MyPractice4.DTO;
+using MyPractice4.Migrations;
+using MyPractice4.Model;
 using System.Security.Claims;
 
 namespace MyPractice4.Controllers
@@ -69,6 +72,30 @@ namespace MyPractice4.Controllers
             }
 
             return int.Parse(userId);
+
+        }
+
+        // ==========================================
+        // CREATE TASK
+        // ==========================================
+
+        [HttpPost]
+        public async Task<IActionResult> Post(InsertTaskDTO dto) {
+        int userId= GetUserId();
+            var task = new TaskItem {
+                Title = dto.Title,
+                Description = dto.Description,
+                // User from JWT
+                UserId = userId
+            };
+            _context.Tasks.Add(task);
+
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                message = "Task created successfully",
+                task = task
+            });
         }
     }
 }
