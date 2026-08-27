@@ -18,8 +18,8 @@ namespace MyPractice4.Controllers
 
 
         private readonly APIDbContext _context;
-        public TaskController(APIDbContext context) { 
-        _context=context;
+        public TaskController(APIDbContext context) {
+            _context = context;
         }
         // ==========================================
         // GET ALL TASKS OF LOGGED-IN USER
@@ -32,8 +32,8 @@ namespace MyPractice4.Controllers
 
             var tasks = await _context.Tasks
             .Where(t => t.UserId == userId)
-            .Select(x=> new { 
-            x.Id,x.Title,x.Description,x.UserId
+            .Select(x => new {
+                x.Id, x.Title, x.Description, x.UserId
             }).ToListAsync();
             return Ok(tasks);
         }
@@ -47,7 +47,7 @@ namespace MyPractice4.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTask(int id) {
-        int userId = GetUserId();
+            int userId = GetUserId();
             var task = await _context.Tasks
                 .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
             if (task == null) {
@@ -81,7 +81,7 @@ namespace MyPractice4.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Post(InsertTaskDTO dto) {
-        int userId= GetUserId();
+            int userId = GetUserId();
             var task = new TaskItem {
                 Title = dto.Title,
                 Description = dto.Description,
@@ -94,7 +94,29 @@ namespace MyPractice4.Controllers
             return Ok(new
             {
                 message = "Task created successfully",
-                task = task
+                datails = task
+            });
+        }
+        // ==========================================
+        // UPDATE TASK
+        // ==========================================
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTask(int id,UpdateTaskDTO dto) {
+            int userId = GetUserId();
+            var task = await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
+            if (task == null) {
+                return NotFound("Task not found.");
+            }
+            task.Title = dto.Title;
+            task.Description = dto.Description;
+
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                message = "Task updated successfully",
+                details = task
             });
         }
     }
