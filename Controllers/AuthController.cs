@@ -96,49 +96,71 @@ namespace MyPractice4.Controllers
 
 
 
-
-        // ==========================
+        // ==========================================
         // GENERATE JWT
-        // ==========================
+        // ==========================================
 
-
-        private object GenerateToken(User user)
+        private string GenerateToken(User user)
         {
-
+            // Claims stored inside JWT
             var claims = new[]
-        {
-            new Claim(
-                ClaimTypes.NameIdentifier,
-                user.Id.ToString()
-            ),
+            {
+                new Claim(
+                    ClaimTypes.NameIdentifier,
+                    user.Id.ToString()
+                ),
 
-            new Claim(
-                ClaimTypes.Email,
-                user.Email
-            )
-        };
+                new Claim(
+                    ClaimTypes.Email,
+                    user.Email
+                )
+            };
 
+
+            // Get JWT secret key
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(
                     _configuration["Jwt:Key"]!
                 )
             );
 
-            var credentials = new SigningCredentials(
-                key,
-                SecurityAlgorithms.HmacSha256
-            );
 
+            // Signing credentials
+            var credentials =
+                new SigningCredentials(
+                    key,
+                    SecurityAlgorithms.HmacSha256
+                );
+
+
+            // Create JWT
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+
+                // Who created token
+                issuer:
+                    _configuration["Jwt:Issuer"],
+
+                // Who can use token
+                audience:
+                    _configuration["Jwt:Audience"],
+
+                // User information
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: credentials
+
+                // Token expires after 1 hour
+                expires:
+                    DateTime.UtcNow.AddHours(1),
+
+                // Sign token
+                signingCredentials:
+                    credentials
             );
 
+
+            // Convert JWT object to string
             return new JwtSecurityTokenHandler()
                 .WriteToken(token);
         }
+
     }
 }

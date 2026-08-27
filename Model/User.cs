@@ -9,5 +9,7 @@
         public string Password { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+
     }
 }

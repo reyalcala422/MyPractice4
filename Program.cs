@@ -19,34 +19,38 @@ builder.Services.AddDbContext<APIDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
-
-// ========================================
+// ==========================================
 // JWT AUTHENTICATION
-// ========================================
-
-builder.Services.AddAuthentication(
-    JwtBearerDefaults.AuthenticationScheme
-)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+// ==========================================
+builder.Services
+    .AddAuthentication(
+        JwtBearerDefaults.AuthenticationScheme
+    )
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
 
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidIssuer =
+                    builder.Configuration["Jwt:Issuer"],
 
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+                ValidAudience =
+                    builder.Configuration["Jwt:Audience"],
 
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(
-                builder.Configuration["Jwt:Key"]!
-            )
-        )
-    };
-});
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(
+                            builder.Configuration["Jwt:Key"]!
+                        )
+                    )
+            };
+    });
+
 
 // IMPORTANT: This must be BEFORE builder.Build()
 builder.Services.AddAuthorization();

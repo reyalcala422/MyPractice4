@@ -32,6 +32,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.TaskController",
+    "Method": "GetTasks",
+    "RelativePath": "api/Task",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",
