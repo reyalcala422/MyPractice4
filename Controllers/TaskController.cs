@@ -18,7 +18,10 @@ namespace MyPractice4.Controllers
         public TaskController(APIDbContext context) { 
         _context=context;
         }
-
+        // ==========================================
+        // GET ALL TASKS OF LOGGED-IN USER
+        // GET: api/task
+        // ==========================================
 
         [HttpGet]
         public async Task<IActionResult> GetTasks() {
@@ -32,7 +35,24 @@ namespace MyPractice4.Controllers
             return Ok(tasks);
         }
 
+        // ==========================================
+        // GET ONE TASK
+        // GET: api/task/1
+        // ==========================================
 
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTask(int id) {
+        int userId = GetUserId();
+            var task = await _context.Tasks
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+            if (task == null) {
+                return NotFound("Task not found");
+
+            }
+            return Ok(task);
+        }
 
 
         private int GetUserId()
