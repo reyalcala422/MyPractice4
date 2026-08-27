@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyPractice4.Data;
 using MyPractice4.DTO;
-using MyPractice4.Migrations;
 using MyPractice4.Model;
 using System.Security.Claims;
 
@@ -18,7 +16,8 @@ namespace MyPractice4.Controllers
 
 
         private readonly APIDbContext _context;
-        public TaskController(APIDbContext context) {
+        public TaskController(APIDbContext context)
+        {
             _context = context;
         }
         // ==========================================
@@ -27,13 +26,18 @@ namespace MyPractice4.Controllers
         // ==========================================
 
         [HttpGet]
-        public async Task<IActionResult> GetTasks() {
+        public async Task<IActionResult> GetTasks()
+        {
             int userId = GetUserId();
 
             var tasks = await _context.Tasks
             .Where(t => t.UserId == userId)
-            .Select(x => new {
-                x.Id, x.Title, x.Description, x.UserId
+            .Select(x => new
+            {
+                x.Id,
+                x.Title,
+                x.Description,
+                x.UserId
             }).ToListAsync();
             return Ok(tasks);
         }
@@ -46,11 +50,13 @@ namespace MyPractice4.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTask(int id) {
+        public async Task<IActionResult> GetTask(int id)
+        {
             int userId = GetUserId();
             var task = await _context.Tasks
                 .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
-            if (task == null) {
+            if (task == null)
+            {
                 return NotFound("Task not found");
 
             }
@@ -80,9 +86,11 @@ namespace MyPractice4.Controllers
         // ==========================================
 
         [HttpPost]
-        public async Task<IActionResult> Post(InsertTaskDTO dto) {
+        public async Task<IActionResult> Post(InsertTaskDTO dto)
+        {
             int userId = GetUserId();
-            var task = new TaskItem {
+            var task = new TaskItem
+            {
                 Title = dto.Title,
                 Description = dto.Description,
                 // User from JWT
@@ -101,12 +109,14 @@ namespace MyPractice4.Controllers
         // UPDATE TASK
         // ==========================================
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(int id,UpdateTaskDTO dto) {
+        public async Task<IActionResult> UpdateTask(int id, UpdateTaskDTO dto)
+        {
             int userId = GetUserId();
             var task = await _context.Tasks
             .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
-            if (task == null) {
+            if (task == null)
+            {
                 return NotFound("Task not found.");
             }
             task.Title = dto.Title;
