@@ -32,6 +32,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.AuthController",
+    "Method": "PutPlace",
+    "RelativePath": "api/Auth/updateuser/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Place.UpdateUserPlace",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.PlaceController",
+    "Method": "Post",
+    "RelativePath": "api/Place",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Place.InsertPlace",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.TaskController",
     "Method": "GetTasks",
     "RelativePath": "api/Task",

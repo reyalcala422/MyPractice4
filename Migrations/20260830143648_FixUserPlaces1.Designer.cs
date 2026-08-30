@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPractice4.Data;
 
@@ -11,9 +12,11 @@ using MyPractice4.Data;
 namespace MyPractice4.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260830143648_FixUserPlaces1")]
+    partial class FixUserPlaces1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,12 +111,17 @@ namespace MyPractice4.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlaceId")
+                    b.Property<int>("PlacesId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "PlaceId");
+                    b.Property<int?>("PlaceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PlacesId");
 
                     b.HasIndex("PlaceId");
+
+                    b.HasIndex("PlacesId");
 
                     b.ToTable("UserPlaces");
                 });
@@ -131,9 +139,13 @@ namespace MyPractice4.Migrations
 
             modelBuilder.Entity("MyPractice4.Model.UserPlaces", b =>
                 {
-                    b.HasOne("MyPractice4.Model.Place", "Place")
+                    b.HasOne("MyPractice4.Model.Place", null)
                         .WithMany("UserPlaces")
-                        .HasForeignKey("PlaceId")
+                        .HasForeignKey("PlaceId");
+
+                    b.HasOne("MyPractice4.Model.Place", "Places")
+                        .WithMany()
+                        .HasForeignKey("PlacesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -143,7 +155,7 @@ namespace MyPractice4.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Place");
+                    b.Navigation("Places");
 
                     b.Navigation("User");
                 });

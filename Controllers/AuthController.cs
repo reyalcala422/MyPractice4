@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MyPractice4.Data;
 using MyPractice4.DTO;
+using MyPractice4.DTO.Place;
 using MyPractice4.Model;
-using BCrypt.Net;
+using System.IdentityModel.Tokens.Jwt;
+using System.Numerics;
+using System.Security.Claims;
+using System.Security.Cryptography.Xml;
+using System.Text;
 
 namespace MyPractice4.Controllers
 {
@@ -93,6 +96,59 @@ namespace MyPractice4.Controllers
                 token = token
             });
         }
+
+
+
+        [HttpPut("updateuser/{id}")]
+        public async Task<IActionResult> PutPlace(int id, UpdateUserPlace dto)
+        {
+            var user = await _context.Users
+                .Include(u => u.UserPlaces)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+                return NotFound();
+
+            _context.UserPlaces.RemoveRange(user.UserPlaces);
+
+            await _context.SaveChangesAsync();
+
+            foreach (var placeId in dto.PlaceId.Distinct())
+            {
+                var userPlace = new UserPlaces
+                {
+                    UserId = id,
+                    PlaceId = placeId
+                };
+
+                _context.UserPlaces.Add(userPlace);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var result = await _context.Users
+                .Include(x => x.UserPlaces)
+                .ThenInclude(x => x.Place)
+                .Where(x => x.Id == id)
+                .Select(x => new { 
+                x.Id,x.Firstname,x.Lastname,x.CreatedDate
+                ,Places =x.UserPlaces.Select
+                (c=>c.Place.Name)
+                }).FirstOrDefaultAsync();
+
+            return Ok(new { 
+            Message= "User place updated!",
+            Place= result
+            });
+
+        }
+
+
+
+
+
+
+
 
 
 

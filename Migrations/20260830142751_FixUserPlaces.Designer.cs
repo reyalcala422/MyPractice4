@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPractice4.Data;
 
@@ -11,9 +12,11 @@ using MyPractice4.Data;
 namespace MyPractice4.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260830142751_FixUserPlaces")]
+    partial class FixUserPlaces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +114,14 @@ namespace MyPractice4.Migrations
                     b.Property<int>("PlaceId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PlacesId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "PlaceId");
 
                     b.HasIndex("PlaceId");
+
+                    b.HasIndex("PlacesId");
 
                     b.ToTable("UserPlaces");
                 });
@@ -131,19 +139,19 @@ namespace MyPractice4.Migrations
 
             modelBuilder.Entity("MyPractice4.Model.UserPlaces", b =>
                 {
-                    b.HasOne("MyPractice4.Model.Place", "Place")
+                    b.HasOne("MyPractice4.Model.User", "User")
                         .WithMany("UserPlaces")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyPractice4.Model.User", "User")
+                    b.HasOne("MyPractice4.Model.Place", "Places")
                         .WithMany("UserPlaces")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PlacesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Place");
+                    b.Navigation("Places");
 
                     b.Navigation("User");
                 });

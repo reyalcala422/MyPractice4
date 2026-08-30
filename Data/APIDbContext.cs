@@ -38,18 +38,19 @@ namespace MyPractice4.Data
             .OnDelete(DeleteBehavior.Cascade);
 
 
+            // User -> UserPlaces
             modelBuilder.Entity<UserPlaces>()
-            .HasOne(x=>x.User)
-            .WithMany(x=>x.UserPlaces)
-            .HasForeignKey(x=>x.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserPlaces)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-
+            // Place -> UserPlaces
             modelBuilder.Entity<UserPlaces>()
-            .HasOne(x => x.User)
-            .WithMany(x => x.UserPlaces)
-            .HasForeignKey(x => x.PlaceId);
-
+                .HasOne(x => x.Place)
+                .WithMany(x => x.UserPlaces)
+                .HasForeignKey(x => x.PlaceId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
