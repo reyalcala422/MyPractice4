@@ -120,7 +120,6 @@ namespace MyPractice4.Controllers
                     UserId = id,
                     PlaceId = placeId
                 };
-
                 _context.UserPlaces.Add(userPlace);
             }
 

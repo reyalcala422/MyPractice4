@@ -69,6 +69,37 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.PlaceController",
+    "Method": "Get",
+    "RelativePath": "api/Place",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.PlaceController",
+    "Method": "Put",
+    "RelativePath": "api/Place/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Place.UpdatePlaceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.TaskController",
     "Method": "GetTasks",
     "RelativePath": "api/Task",
