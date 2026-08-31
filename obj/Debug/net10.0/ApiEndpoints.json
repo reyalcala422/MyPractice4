@@ -53,6 +53,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.AuthController",
+    "Method": "GetUserPlace",
+    "RelativePath": "api/Auth/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.PlaceController",
     "Method": "Post",
     "RelativePath": "api/Place",

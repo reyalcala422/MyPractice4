@@ -10,7 +10,7 @@
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
-        public ICollection <UserPlaces> UserPlaces { get; set; }
+        public ICollection<UserPlaces> UserPlaces { get; set; } = new List<UserPlaces>();
 
     }
 }

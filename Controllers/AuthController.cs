@@ -145,7 +145,20 @@ namespace MyPractice4.Controllers
 
 
 
-
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUserPlace() {
+        var user = await _context.Users
+        .Include (x => x.UserPlaces)
+        .ThenInclude (x => x.Place)
+        .Select(x=> new {
+        x.Id, x.Firstname, x.Lastname,
+        Places=x.UserPlaces.Select(c=>c.Place.Name)
+        }).ToListAsync();
+            return Ok(new
+            {
+                Data = user
+            });
+        }
 
 
 
