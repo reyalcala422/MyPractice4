@@ -1,5 +1,52 @@
 [
   {
+    "ContainingType": "MyPractice4.Controllers.AnimalController",
+    "Method": "Post",
+    "RelativePath": "api/Animal",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Animal.InserAnimalDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.AnimalController",
+    "Method": "Get",
+    "RelativePath": "api/Animal",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.AnimalController",
+    "Method": "Put",
+    "RelativePath": "api/Animal/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Animal.UpdateAnimalDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
