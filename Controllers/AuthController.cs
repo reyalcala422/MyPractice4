@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MyPractice4.Data;
 using MyPractice4.DTO;
+using MyPractice4.DTO.Animal;
 using MyPractice4.DTO.Place;
 using MyPractice4.Model;
 using System.IdentityModel.Tokens.Jwt;
@@ -141,6 +142,52 @@ namespace MyPractice4.Controllers
             });
 
         }
+
+        [HttpPut("updateuseranimal/{id}")]
+        public async Task<IActionResult> PutAnimal(int id, UserAnimalDTO dto) {
+            var animal = await _context.Users
+                    .Include(u => u.UserAnimals)
+                    .FirstOrDefaultAsync(u=>u.Id == id);
+
+            if(animal == null)
+              return NotFound();
+
+            _context.UserAnimals.RemoveRange(animal.UserAnimals);
+
+            await _context.SaveChangesAsync();
+
+            foreach (var animalId in dto.AnimalId.Distinct()) {
+                var userAnimal = new UserAnimals {
+                UserId=id, AnimalId=animalId
+                };
+                _context.UserAnimals.Add(userAnimal);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var result = await _context.Users
+                .Include(x => x.UserAnimals)
+                .ThenInclude(x => x.Animal)
+                .Where(x => x.Id == id)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Firstname,
+                    x.Lastname,
+                    x.CreatedDate,
+                    Animals
+                = x.UserAnimals.Select(c => c.Animal.Name)
+                }).FirstOrDefaultAsync();
+
+            return Ok(new
+            {
+                Message = "User animal updated!",
+                Place = result
+            });
+
+
+        }
+
 
 
 
