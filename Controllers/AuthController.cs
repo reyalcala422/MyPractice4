@@ -209,6 +209,24 @@ namespace MyPractice4.Controllers
 
 
 
+        [HttpGet("getuseranimals")]
+        public async Task<IActionResult> Get() {
+            var animal = await _context.Users
+               .Include(x => x.UserAnimals)
+               .ThenInclude(x => x.Animal)
+               .Select(x => new
+               {
+                   x.Id,
+                   x.Firstname,
+                   x.Lastname,
+                   x.CreatedDate,
+                   Animals = x.UserAnimals
+                .Select(c => c.Animal.Name)
+               }).ToListAsync();
+            return Ok(new {
+            Data= animal
+            });
+        }
 
 
         // ==========================================
