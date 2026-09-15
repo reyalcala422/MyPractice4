@@ -20,6 +20,10 @@ namespace MyPractice4.Data
         public DbSet<Animal> Animals { get; set; }
         public DbSet<UserAnimals> UserAnimals { get; set; }
 
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<UserArtist> UserArtists { get; set; }
+             
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -78,6 +82,25 @@ namespace MyPractice4.Data
             .HasForeignKey(x => x.AnimalId)
             .OnDelete(DeleteBehavior.ClientCascade);
 
+
+            modelBuilder.Entity<UserArtist>()
+            .HasKey(x => new {
+            x.UserId, x.ArtistId
+            });
+
+            // User -> UserArtist
+            modelBuilder.Entity<UserArtist>()
+            .HasOne(x=>x.User)
+            .WithMany(x=>x.UserArtists)
+            .HasForeignKey(x=>x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            // Artist -> UserArtist
+            modelBuilder.Entity<UserArtist>()
+            .HasOne(x=>x.Artist)
+            .WithMany(x=>x.UserArtists)
+            .HasForeignKey(x=>x.ArtistId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

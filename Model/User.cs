@@ -12,6 +12,7 @@
         public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
         public ICollection<UserPlaces> UserPlaces { get; set; } = new List<UserPlaces>();
         public ICollection<UserAnimals> UserAnimals { get; set; }= new List<UserAnimals>();
+        public ICollection<UserArtist> UserArtists { get; set; } = new List<UserArtist>(); 
 
     }
 }
