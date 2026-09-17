@@ -51,5 +51,30 @@ namespace MyPractice4.Controllers
              }).ToListAsync();
             return Ok(artist);
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, UpdateArtistDTO dto)
+        {
+            var artist = await _context.Artists.FindAsync(id);
+
+            if (artist == null) {
+                return NotFound("Artist not found!");
+            }
+
+            var updatedArtist = new {
+             FullName = dto.FullName,
+            Talent = dto.Talent
+            };
+            artist.FullName = dto.FullName;
+            artist.Talent= dto.Talent;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                Message = "Artist updated",
+                Data = updatedArtist
+            });
+        }
+
     }
 }
