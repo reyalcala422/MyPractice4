@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyPractice4.Data;
 using MyPractice4.DTO;
 using MyPractice4.DTO.Animal;
+using MyPractice4.DTO.Artist;
 using MyPractice4.DTO.Place;
 using MyPractice4.Model;
 using System.IdentityModel.Tokens.Jwt;
@@ -188,7 +189,44 @@ namespace MyPractice4.Controllers
 
         }
 
+        [HttpPut("updateuserartist/{id}")]
+        public async Task<IActionResult> PutArtistUser(int id, UpdateUserArtistDTO dto) {
+        
+            var artist = await _context.Users
+               .Include(u=>u.UserArtists)
+               .FirstOrDefaultAsync(u=>u.Id == id);
 
+            if (artist == null) {
+                return NotFound();
+            }
+
+            _context.UserArtists.RemoveRange(artist.UserArtists);
+            await _context.SaveChangesAsync();
+
+            foreach (var artistId in dto.ArtistId.Distinct()) {
+                var userArtist = new UserArtist
+                {
+                    UserId = id, ArtistId = artistId
+                };
+                _context.UserArtists.Add(userArtist);
+            }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.Users
+                .Include(x => x.UserArtists)
+                .ThenInclude(x => x.Artist)
+                .Where(x => x.Id == id)
+                .Select(x=> new { 
+                x.Id,x.Firstname,x.Lastname,x.CreatedDate,
+                Artist = x.UserArtists.Select(c => new {c.Artist.Id,c.Artist.FullName,c.Artist.Talent })    // Select(c => new {c.Artist.FullName,c.Artist.Talent }) to fullname and talent column to artist table
+                }).FirstOrDefaultAsync();
+
+            return Ok(new
+            {
+                Message = "User artist selected!",
+                Place = result
+            });
+        }
 
 
 

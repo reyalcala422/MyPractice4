@@ -2,5 +2,7 @@
 {
     public class UpdateArtistDTO
     {
+        public string FullName { get; set; }
+        public string Talent { get; set; }
     }
 }
