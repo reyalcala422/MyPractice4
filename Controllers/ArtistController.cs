@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyPractice4.Data;
 using MyPractice4.DTO.Artist;
 using MyPractice4.Model;
@@ -36,6 +37,19 @@ namespace MyPractice4.Controllers
                 Message = "Artist Inserted!",
                 Data = artist
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get() {
+
+            var artist = await _context.Artists
+             .Select(x=> new GetArtistDTO {
+             Id = x.Id,
+             FullName = x.FullName,
+             Talent= x.Talent,
+             CreatedDate = x.CreatedDate
+             }).ToListAsync();
+            return Ok(artist);
         }
     }
 }

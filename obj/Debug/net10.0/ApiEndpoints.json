@@ -63,6 +63,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.ArtistController",
+    "Method": "Get",
+    "RelativePath": "api/Artist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.AuthController",
     "Method": "Get",
     "RelativePath": "api/Auth/getuseranimals",
