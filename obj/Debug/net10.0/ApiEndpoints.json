@@ -47,6 +47,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.ArtistController",
+    "Method": "Post",
+    "RelativePath": "api/Artist",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Artist.InsertArtistDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.AuthController",
     "Method": "Get",
     "RelativePath": "api/Auth/getuseranimals",
