@@ -95,8 +95,18 @@
   },
   {
     "ContainingType": "MyPractice4.Controllers.AuthController",
-    "Method": "Get",
+    "Method": "GetAnimals",
     "RelativePath": "api/Auth/getuseranimals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.AuthController",
+    "Method": "Get",
+    "RelativePath": "api/Auth/getuserartist",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -230,6 +230,23 @@ namespace MyPractice4.Controllers
 
 
 
+        [HttpGet("getuserartist")]
+        public async Task<IActionResult> Get() {
+        var artist = await _context.Users
+            .Include (x => x.UserArtists)
+            .ThenInclude (x => x.Artist)
+            .Select (x=> new {
+            x.Id, x.Firstname, x.Lastname, x.CreatedDate,
+            Artist = x.UserArtists.Select(c => new {c.Artist.Id,c.Artist.FullName,c.Artist.Talent })
+            }).ToListAsync();
+
+            return Ok(new
+            {
+                Data = artist
+            });
+        }
+
+
         [HttpGet("users")]
         public async Task<IActionResult> GetUserPlace() {
         var user = await _context.Users
@@ -248,7 +265,7 @@ namespace MyPractice4.Controllers
 
 
         [HttpGet("getuseranimals")]
-        public async Task<IActionResult> Get() {
+        public async Task<IActionResult> GetAnimals() {
             var animal = await _context.Users
                .Include(x => x.UserAnimals)
                .ThenInclude(x => x.Animal)
