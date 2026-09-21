@@ -7,6 +7,7 @@ using MyPractice4.Data;
 using MyPractice4.DTO;
 using MyPractice4.DTO.Animal;
 using MyPractice4.DTO.Artist;
+using MyPractice4.DTO.Department;
 using MyPractice4.DTO.Place;
 using MyPractice4.Model;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,9 +27,9 @@ namespace MyPractice4.Controllers
 
         public AuthController(
         APIDbContext context, IConfiguration configuration)
-        { 
-        _context = context;
-        _configuration= configuration;
+        {
+            _context = context;
+            _configuration = configuration;
         }
 
 
@@ -47,7 +48,7 @@ namespace MyPractice4.Controllers
      );
             var user = new User
             {
-                Firstname=dto.Firstname,
+                Firstname = dto.Firstname,
                 Lastname = dto.Lastname,
                 Email = dto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
@@ -55,7 +56,7 @@ namespace MyPractice4.Controllers
 
             _context.Users.Add(user);
 
-            await _context.SaveChangesAsync ();
+            await _context.SaveChangesAsync();
             var token = GenerateToken(user);
 
             return Ok(new
@@ -131,15 +132,15 @@ namespace MyPractice4.Controllers
                 .Include(x => x.UserPlaces)
                 .ThenInclude(x => x.Place)
                 .Where(x => x.Id == id)
-                .Select(x => new { 
-                x.Id,x.Firstname,x.Lastname,x.CreatedDate
-                ,Places =x.UserPlaces.Select
-                (c=>c.Place.Name)
+                .Select(x => new {
+                    x.Id, x.Firstname, x.Lastname, x.CreatedDate
+                , Places = x.UserPlaces.Select
+                (c => c.Place.Name)
                 }).FirstOrDefaultAsync();
 
-            return Ok(new { 
-            Message= "User place updated!",
-            Place= result
+            return Ok(new {
+                Message = "User place updated!",
+                Place = result
             });
 
         }
@@ -148,10 +149,10 @@ namespace MyPractice4.Controllers
         public async Task<IActionResult> PutAnimal(int id, UserAnimalDTO dto) {
             var animal = await _context.Users
                     .Include(u => u.UserAnimals)
-                    .FirstOrDefaultAsync(u=>u.Id == id);
+                    .FirstOrDefaultAsync(u => u.Id == id);
 
-            if(animal == null)
-              return NotFound();
+            if (animal == null)
+                return NotFound();
 
             _context.UserAnimals.RemoveRange(animal.UserAnimals);
 
@@ -159,7 +160,7 @@ namespace MyPractice4.Controllers
 
             foreach (var animalId in dto.AnimalId.Distinct()) {
                 var userAnimal = new UserAnimals {
-                UserId=id, AnimalId=animalId
+                    UserId = id, AnimalId = animalId
                 };
                 _context.UserAnimals.Add(userAnimal);
             }
@@ -191,10 +192,10 @@ namespace MyPractice4.Controllers
 
         [HttpPut("updateuserartist/{id}")]
         public async Task<IActionResult> PutArtistUser(int id, UpdateUserArtistDTO dto) {
-        
+
             var artist = await _context.Users
-               .Include(u=>u.UserArtists)
-               .FirstOrDefaultAsync(u=>u.Id == id);
+               .Include(u => u.UserArtists)
+               .FirstOrDefaultAsync(u => u.Id == id);
 
             if (artist == null) {
                 return NotFound();
@@ -216,9 +217,9 @@ namespace MyPractice4.Controllers
                 .Include(x => x.UserArtists)
                 .ThenInclude(x => x.Artist)
                 .Where(x => x.Id == id)
-                .Select(x=> new { 
-                x.Id,x.Firstname,x.Lastname,x.CreatedDate,
-                Artist = x.UserArtists.Select(c => new {c.Artist.Id,c.Artist.FullName,c.Artist.Talent })    // Select(c => new {c.Artist.FullName,c.Artist.Talent }) to fullname and talent column to artist table
+                .Select(x => new {
+                    x.Id, x.Firstname, x.Lastname, x.CreatedDate,
+                    Artist = x.UserArtists.Select(c => new { c.Artist.Id, c.Artist.FullName, c.Artist.Talent })    // Select(c => new {c.Artist.FullName,c.Artist.Talent }) to fullname and talent column to artist table
                 }).FirstOrDefaultAsync();
 
             return Ok(new
@@ -232,13 +233,13 @@ namespace MyPractice4.Controllers
 
         [HttpGet("getuserartist")]
         public async Task<IActionResult> Get() {
-        var artist = await _context.Users
-            .Include (x => x.UserArtists)
-            .ThenInclude (x => x.Artist)
-            .Select (x=> new {
-            x.Id, x.Firstname, x.Lastname, x.CreatedDate,
-            Artist = x.UserArtists.Select(c => new {c.Artist.Id,c.Artist.FullName,c.Artist.Talent })
-            }).ToListAsync();
+            var artist = await _context.Users
+                .Include(x => x.UserArtists)
+                .ThenInclude(x => x.Artist)
+                .Select(x => new {
+                    x.Id, x.Firstname, x.Lastname, x.CreatedDate,
+                    Artist = x.UserArtists.Select(c => new { c.Artist.Id, c.Artist.FullName, c.Artist.Talent })
+                }).ToListAsync();
 
             return Ok(new
             {
@@ -249,13 +250,13 @@ namespace MyPractice4.Controllers
 
         [HttpGet("users")]
         public async Task<IActionResult> GetUserPlace() {
-        var user = await _context.Users
-        .Include (x => x.UserPlaces)
-        .ThenInclude (x => x.Place)
-        .Select(x=> new {
-        x.Id, x.Firstname, x.Lastname,
-        Places=x.UserPlaces.Select(c=>c.Place.Name)
-        }).ToListAsync();
+            var user = await _context.Users
+            .Include(x => x.UserPlaces)
+            .ThenInclude(x => x.Place)
+            .Select(x => new {
+                x.Id, x.Firstname, x.Lastname,
+                Places = x.UserPlaces.Select(c => c.Place.Name)
+            }).ToListAsync();
             return Ok(new
             {
                 Data = user
@@ -279,7 +280,37 @@ namespace MyPractice4.Controllers
                 .Select(c => c.Animal.Name)
                }).ToListAsync();
             return Ok(new {
-            Data= animal
+                Data = animal
+            });
+        }
+
+
+        [HttpPut("userdepartment/{id}")]
+        public async Task<IActionResult> PutDepartment(int id, UpdateUserDepartmentDTO dto) {
+        var user = await _context.Users
+            .Include (x => x.Department)
+            .FirstOrDefaultAsync(u=>u.Id == id);
+            if (user == null)
+                return NotFound("User not found");
+
+            var department = await _context.Departments.FindAsync(dto.DepartmentId);
+            if (department == null)
+                return NotFound("Department not found");
+
+            user.DepartmentId = dto.DepartmentId;
+
+            await _context.Entry(user)
+            .Reference(u => u.Department)
+            .LoadAsync();
+
+            return Ok(new {
+            Message="User Department updated!",
+            Data= new {
+            user.Id,
+            user.Firstname,
+            user.Lastname, user.CreatedDate,
+            UserDepartment=user.Department.Name, user.Department.Head
+            }
             });
         }
 
