@@ -309,11 +309,26 @@ namespace MyPractice4.Controllers
             user.Id,
             user.Firstname,
             user.Lastname, user.CreatedDate,
-            UserDepartment=user.Department.Name, user.Department.Head
+            UserDepartment=user.Department?.Name, user.Department?.Head
             }
             });
         }
 
+        [HttpGet("getuserdepartment")]
+        public async Task<IActionResult> GetDepartment() {
+        var user = await _context.Users
+            .Include (x => x.Department)
+            .Select(e => new GetUserDepartment {
+             Id=e.Id,
+             FirstName=e.Firstname,
+             LastName=e.Lastname,
+             Email=e.Email,
+             DepartmentId = e.DepartmentId,
+             Name = e.Department.Name,
+             Head = e.Department.Head
+            }).ToListAsync();
+            return Ok(user);
+        }
 
         // ==========================================
         // GENERATE JWT
