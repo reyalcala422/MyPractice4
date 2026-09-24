@@ -7,6 +7,9 @@
         public string Talent { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        public int? GenreId { get; set; }
+
+        public Genre Genre { get; set; }
         public ICollection<UserArtist> UserArtists { get; set; } = new List<UserArtist>();
 
     }

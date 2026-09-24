@@ -24,6 +24,8 @@ namespace MyPractice4.Data
         public DbSet<UserArtist> UserArtists { get; set; }
 
         public DbSet<Department> Departments { get; set; } 
+
+        public DbSet<Genre> Genres { get; set; }
              
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -104,6 +106,10 @@ namespace MyPractice4.Data
             .HasForeignKey(x=>x.ArtistId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Artist>()
+             .HasOne(x => x.Genre)
+             .WithMany(y => y.Artists)
+             .HasForeignKey(x => x.GenreId);
 
             //one is to one
             modelBuilder.Entity<User>()
