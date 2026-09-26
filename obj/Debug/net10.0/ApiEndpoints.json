@@ -250,6 +250,53 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.GenreController",
+    "Method": "Post",
+    "RelativePath": "api/Genre",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Genre.InsertGenreDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.GenreController",
+    "Method": "Get",
+    "RelativePath": "api/Genre",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyPractice4.Controllers.GenreController",
+    "Method": "Put",
+    "RelativePath": "api/Genre/update/genre/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Genre.UpdateGenreDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.PlaceController",
     "Method": "Post",
     "RelativePath": "api/Place",
