@@ -43,10 +43,12 @@ namespace MyPractice4.Controllers
             var artist = await _context.Genres
             .Select(x => new
             {
+                
                 Id = x.Id,
                 Name = x.Name
             }).ToListAsync();
 
+           
             return Ok(artist);
          
         }

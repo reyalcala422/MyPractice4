@@ -94,6 +94,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyPractice4.Controllers.ArtistController",
+    "Method": "UpdateArtist",
+    "RelativePath": "api/Artist/genre/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MyPractice4.DTO.Genre.UpdateArtistGenreDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyPractice4.Controllers.AuthController",
     "Method": "GetAnimals",
     "RelativePath": "api/Auth/getuseranimals",

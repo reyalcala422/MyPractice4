@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyPractice4.Data;
 using MyPractice4.DTO.Artist;
+using MyPractice4.DTO.Genre;
 using MyPractice4.Model;
 
 namespace MyPractice4.Controllers
@@ -77,6 +78,27 @@ namespace MyPractice4.Controllers
         }
 
 
+        [HttpPut("genre/{id}")]
+        public async Task<IActionResult> UpdateArtist(int id, UpdateArtistGenreDTO dto) {
+
+            var artist = await _context.Artists.FindAsync(id);
+
+            if(artist == null)
+                return NotFound("Artist not found.");
+
+            var genre = await _context.Genres.FindAsync(dto.GenreId);
+            if (genre == null)
+                return NotFound("Genre not found.");
+
+            artist.GenreId = dto.GenreId;
+            await _context.SaveChangesAsync();
+
+            return Ok(new {
+            artist.Id, artist.FullName,
+            artist.Talent, artist.CreatedDate,
+            genreId= artist.GenreId
+            });
+        }
 
     }
 }
