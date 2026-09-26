@@ -93,10 +93,17 @@ namespace MyPractice4.Controllers
             artist.GenreId = dto.GenreId;
             await _context.SaveChangesAsync();
 
+            await _context.Entry(artist)
+            .Reference(u => u.Genre)
+            .LoadAsync();
+
             return Ok(new {
             artist.Id, artist.FullName,
             artist.Talent, artist.CreatedDate,
-            genreId= artist.GenreId
+                genre = new { 
+                id=artist.Genre.Id,
+                name=artist.Genre.Name
+                }
             });
         }
 
